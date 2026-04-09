@@ -1,22 +1,31 @@
 import { useEffect } from "react";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { useNavigate } from "react-router-dom";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
- 
+
 export default function SignupPage() {
-  const { login, register, isAuthenticated } = useKindeAuth();
+  const { login, register, isAuthenticated, isLoading } = useKindeAuth();
   const navigate = useNavigate();
- 
+
+  // ✅ If Kinde returns user as authenticated (after signup/login), go straight to profile-setup
   useEffect(() => {
-    if (isAuthenticated) navigate("/dashboard");
-  }, [isAuthenticated, navigate]);
- 
+    if (!isLoading && isAuthenticated) {
+      navigate("/profile-setup", { replace: true });
+    }
+  }, [isAuthenticated, isLoading]);
+
+  // ✅ Show nothing while Kinde is checking auth state (prevents flash of signup form)
+  if (isLoading) return null;
+
+  // ✅ If already authenticated, render nothing (redirect is happening)
+  if (isAuthenticated) return null;
+
   return (
     <div className="min-h-screen bg-gray-200 flex items-center justify-center px-4">
       <Card className="w-full max-w-sm border-0 shadow-xl rounded-2xl">
         <CardContent className="p-9">
- 
+
           {/* Logo */}
           <div className="flex items-center justify-center gap-2 mb-7">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -27,58 +36,40 @@ export default function SignupPage() {
               Daily<span className="text-indigo-600">TM</span>
             </span>
           </div>
- 
-          {/* Heading */}
+
           <h1 className="text-xl font-semibold text-gray-900 mb-1">Create Account</h1>
           <p className="text-sm text-gray-400 mb-7">Get started today!</p>
- 
-          {/* Fields — visual only, Kinde handles real auth */}
+
           <div className="space-y-4 mb-5">
             <div>
               <label className="text-sm text-gray-600 block mb-1">First name</label>
-              <input
-                type="text"
-                className="w-full border border-indigo-400 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-300"
-                placeholder=""
-              />
+              <input type="text" className="w-full border border-indigo-400 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-300" />
             </div>
             <div>
               <label className="text-sm text-gray-600 block mb-1">Last name</label>
-              <input
-                type="text"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-300"
-                placeholder=""
-              />
+              <input type="text" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-300" />
             </div>
             <div>
               <label className="text-sm text-gray-600 block mb-1">Email Address</label>
-              <input
-                type="email"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-300"
-                placeholder=""
-              />
+              <input type="email" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-300" />
             </div>
           </div>
- 
-          {/* Create account → triggers Kinde register */}
+
           <Button
             className="w-full bg-gray-900 hover:bg-gray-700 text-white rounded-lg py-2 text-sm font-medium"
             onClick={() => register()}
           >
             Create your account
           </Button>
- 
-          {/* Divider */}
+
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-gray-200" />
             <span className="text-xs text-gray-400">Or</span>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
- 
-          {/* Google */}
+
           <Button
-            variant="outline"
-            className="w-full rounded-lg text-sm font-medium gap-2 border-gray-200"
+            className="w-full flex items-center justify-center gap-2 border border-gray-200 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             onClick={() => login({ connection_id: "google" })}
           >
             <svg width="16" height="16" viewBox="0 0 48 48">
@@ -89,8 +80,7 @@ export default function SignupPage() {
             </svg>
             Continue with Google
           </Button>
- 
-          {/* Sign in */}
+
           <p className="text-center text-sm text-gray-400 mt-6">
             Already have an account?{" "}
             <span
@@ -100,12 +90,11 @@ export default function SignupPage() {
               Sign in
             </span>
           </p>
- 
-          {/* Powered by */}
+
           <p className="text-center text-xs text-gray-300 mt-6">
             Powered by <strong className="text-gray-400">Kinde</strong>
           </p>
- 
+
         </CardContent>
       </Card>
     </div>

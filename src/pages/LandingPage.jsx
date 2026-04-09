@@ -1,7 +1,7 @@
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
- 
+
 const features = [
   {
     icon: (
@@ -39,17 +39,17 @@ const features = [
     desc: "Personalize your workspace with flexible tools designed to match your unique work style.",
   },
 ];
- 
+
 export default function LandingPage() {
-  const { login } = useKindeAuth();
- 
+  const navigate = useNavigate();  // ✅ removed useKindeAuth entirely
+
   return (
     <div className="min-h-screen bg-white font-sans">
- 
+
       {/* Navbar */}
       <nav className="sticky top-0 z-50 bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
- 
+
           {/* Logo */}
           <div className="flex items-center gap-2">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -60,36 +60,32 @@ export default function LandingPage() {
               Daily<span className="text-indigo-600">TM</span>
             </span>
           </div>
- 
+
           {/* Nav links */}
           <div className="hidden md:flex items-center gap-8">
             {["Home", "Features", "Pricing", "Contact"].map((link) => (
-              <a
-                key={link}
-                href="#"
-                className="text-sm text-gray-500 hover:text-gray-900 font-medium transition-colors"
-              >
+              <a key={link} href="#" className="text-sm text-gray-500 hover:text-gray-900 font-medium transition-colors">
                 {link}
               </a>
             ))}
           </div>
- 
-          {/* Auth buttons */}
+
+          {/* Auth buttons — ALL go to /signup */}
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" onClick={() => login()}>
+            <Button variant="ghost" size="sm" onClick={() => navigate("/signup")}>
               Sign In
             </Button>
             <Button
               size="sm"
               className="bg-gray-900 hover:bg-gray-700 text-white rounded-lg"
-              onClick={() => login()}
+              onClick={() => navigate("/signup")}
             >
               Get Started
             </Button>
           </div>
         </div>
       </nav>
- 
+
       {/* Hero */}
       <section className="max-w-3xl mx-auto px-6 pt-24 pb-20 text-center">
         <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-5">
@@ -106,24 +102,20 @@ export default function LandingPage() {
           <Button
             size="lg"
             className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-7"
-            onClick={() => login()}
+            onClick={() => navigate("/signup")}  
           >
             Start for Free
           </Button>
           <Button variant="ghost" size="lg" className="text-gray-500 gap-2">
-            <span className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs">
-              ▶
-            </span>
+            <span className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs">▶</span>
             Watch Demo
           </Button>
         </div>
       </section>
- 
+
       {/* Features */}
       <section className="bg-gradient-to-b from-slate-50 to-indigo-50 py-20 px-6">
         <div className="max-w-5xl mx-auto">
- 
-          {/* Section heading */}
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
               Essential features for{" "}
@@ -133,32 +125,19 @@ export default function LandingPage() {
               Everything you need to simplify your projects and boost productivity
             </p>
           </div>
- 
-          {/* Cards — border-0 removes all outlines, shadow-md gives grey shadow */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {features.map((f) => (
-              <Card
-                key={f.title}
-                className="border-0 shadow-md hover:shadow-lg transition-shadow duration-200 rounded-2xl bg-white"
-              >
+              <Card key={f.title} className="border-0 shadow-md hover:shadow-lg transition-shadow duration-200 rounded-2xl bg-white">
                 <CardContent className="p-7">
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
-                    style={{ background: f.iconBg }}
-                  >
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style={{ background: f.iconBg }}>
                     {f.icon}
                   </div>
-                  <h3 className="text-base font-semibold text-gray-900 mb-2">
-                    {f.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    {f.desc}
-                  </p>
+                  <h3 className="text-base font-semibold text-gray-900 mb-2">{f.title}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
- 
         </div>
       </section>
     </div>
