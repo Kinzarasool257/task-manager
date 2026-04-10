@@ -5,7 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ProfileSetupPage from "./pages/ProfileSetupPage";
 import CreateWorkspacePage from "./pages/CreateWorkspacePage";
 import Dashboard from "./pages/dashboard";
-import ProjectPage from "./pages/ProjectPage";
+import ProjectPage from "./pages/ProjectPage/ProjectPage";
 
 export default function App() {
   return (
