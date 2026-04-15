@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base theme colors */
+    --background: #ffffff;
+    --foreground: #111827;
+    
+    --card: #ffffff;
+    --card-foreground: #111827;
+    
+    --popover: #ffffff;
+    --popover-foreground: #111827;
+    
+    --primary: #4F46E5;
+    --primary-foreground: #ffffff;
+    
+    --secondary: #f3f4f6;
+    --secondary-foreground: #111827;
+    
+    --muted: #f9fafb;
+    --muted-foreground: #6b7280;
+    
+    --accent: #f3f4f6;
+    --accent-foreground: #111827;
+    
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    
+    --border: #f0f0f0;
+    --input: #f0f0f0;
+    --ring: #4F46E5;
+    
+    --radius: 0.5rem;
+    
+    /* Custom semantic colors for dashboard */
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --panel-border: #f1f5f9;
+    --text-main: #1e293b;
+    --text-dim: #64748b;
+    --text-muted: #94a3b8;
+    --nav-active-bg: #eef2ff;
+    --nav-active-text: #4f46e5;
+  }
+
+  .dark {
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    
+    --card: #1e293b;
+    --card-foreground: #f8fafc;
+    
+    --popover: #1e293b;
+    --popover-foreground: #f8fafc;
+    
+    --primary: #6366f1;
+    --primary-foreground: #ffffff;
+    
+    --secondary: #334155;
+    --secondary-foreground: #f8fafc;
+    
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    
+    --accent: #334155;
+    --accent-foreground: #f8fafc;
+    
+    --destructive: #7f1d1d;
+    --destructive-foreground: #f8fafc;
+    
+    --border: #334155;
+    --input: #334155;
+    --ring: #6366f1;
+    
+    /* Dark mode semantic colors */
+    --surface: #1e293b;
+    --surface-alt: #0f172a;
+    --panel-border: #334155;
+    --text-main: #f8fafc;
+    --text-dim: #cbd5e1;
+    --text-muted: #64748b;
+    --nav-active-bg: #312e81;
+    --nav-active-text: #e0e7ff;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    transition: background-color 0.2s, border-color 0.2s, color 0.15s;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    @apply antialiased;
+  }
+}
+
+/* Helper transitions for smooth theme switching */
+.animate-theme {
+    transition: all 0.3s ease;
+}

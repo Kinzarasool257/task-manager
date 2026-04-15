@@ -1,16 +1,48 @@
-# React + Vite
+# DailyTM - Task Management SaaS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A professional task management application built with React, Node.js, and Prisma.
 
-Currently, two official plugins are available:
+## Tech Stack
+- **Frontend**: React (Vite), Tailwind CSS, shadcn/ui.
+- **Backend**: Node.js (Express), Prisma ORM.
+- **Database**: PostgreSQL (Dockerized).
+- **Auth**: Kinde.
+- **Storage**: Uploadthing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Getting Started
 
-## React Compiler
+### 1. Infrastructure (Database)
+Ensure Docker is running and execute:
+```bash
+docker-compose up -d
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 2. Server Setup
+```bash
+cd server
+npm install
+# Setup your .env with DATABASE_URL
+npx prisma generate
+npm run dev
+```
 
-## Expanding the ESLint configuration
+### 3. Client Setup
+```bash
+cd client
+npm install
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Environment Variables
+Copy `.env.example` to both `client/.env` and `server/.env` and fill in the required keys.
+- **Server**: Needs `DATABASE_URL`.
+- **Client**: Needs `VITE_KINDE_*` keys.
+
+## Features
+- [x] Clean Architecture (Client/Server)
+- [x] Core Database Models
+- [x] Responsive Sidebar/Navbar Shell
+- [ ] Kinde Auth Integration (Pending re-activation)
+- [ ] Task Management (CRUD)
+- [ ] Workspace Support
+- [ ] File Uploads (Uploadthing)
