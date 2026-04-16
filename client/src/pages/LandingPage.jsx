@@ -52,6 +52,11 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen font-sans" style={{ background: "var(--background)", color: "var(--text-main)", transition: "background 0.3s, color 0.3s" }}>
 
+      {/* DIAGNOSTIC BANNER */}
+      <div style={{ background: "red", color: "white", textAlign: "center", padding: "10px", fontWeight: "bold", fontSize: "20px", zIndex: 9999 }}>
+        DEPLOYMENT VERIFIED: NO KINDE AUTH (V2)
+      </div>
+
       {/* Navbar */}
       <nav className="sticky top-0 z-50 transition-all duration-300" style={{ background: "var(--surface)", borderBottom: "1px solid var(--panel-border)" }}>
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
