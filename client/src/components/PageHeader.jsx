@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "../context/ThemeContext";
 
 /**
@@ -10,7 +10,7 @@ import { useTheme } from "../context/ThemeContext";
  */
 export default function PageHeader({ title, subtitle, icon }) {
   const navigate = useNavigate();
-  const { user } = useKindeAuth();
+  const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
   const userInitials = user 

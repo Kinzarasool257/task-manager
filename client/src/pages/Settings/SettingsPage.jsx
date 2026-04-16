@@ -83,7 +83,7 @@ export default function SettingsPage({ workspace, onWorkspaceUpdate, onDeleteWor
             const { inviteMemberToWorkspace } = await import("../../lib/api");
             const newMember = await inviteMemberToWorkspace(workspace.id, email.trim());
             setMembers(prev => [...prev, newMember]);
-            setInviteMsg(`Invite sent to ${email}`);
+            setInviteMsg(`Invitation sent! (Simulation: Check server console for link)`);
             setEmail("");
             setTimeout(() => setInviteMsg(""), 3000);
         } catch (err) {
@@ -198,7 +198,7 @@ export default function SettingsPage({ workspace, onWorkspaceUpdate, onDeleteWor
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 2, flexWrap: "wrap", gap: 6 }}>
                         <h2 style={sectionTitle}>Invite Members</h2>
                         <span style={{ fontSize: 12, color: "var(--text-dim)", background: "var(--surface-alt)", padding: "2px 10px", borderRadius: 20 }}>
-                            {members.length === 0 ? "1 Only you" : `${members.length + 1} members`}
+                            {members.length <= 1 ? "Only you" : `${members.length} members`}
                         </span>
                     </div>
                     <p style={sectionSub}>Add new members to your workspace</p>

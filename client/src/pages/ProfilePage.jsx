@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 import { getUserWorkspaces, getWorkspaceProjects, getUserById, updateUserPreferences } from "../lib/api";
 
 export default function ProfilePage() {
-  const { user } = useKindeAuth();
+  const { user } = useAuth();
   const [workspaces, setWorkspaces] = useState([]);
   const [taskStats, setTaskStats] = useState({ total: 0, completed: 0 });
   const [loading, setLoading] = useState(true);

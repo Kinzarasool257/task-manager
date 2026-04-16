@@ -14,7 +14,7 @@ import MembersPage from "./pages/Members/MembersPage";
 import WorkspaceInvitePage from "./pages/Members/WorkspaceInvitePage";
 import ProjectSettingsPage from "./pages/ProjectPage/ProjectSettingsPage";
 import NotificationsPage from "./pages/NotificationsPage";
-import DocumentationPage from "./pages/ProjectPage/DocumentationPage";
+import DocumentationPage from "./pages/ProjectPage/Documentationpage";
 import MyTasks from "./pages/MyTasks";
 import ProfilePage from "./pages/ProfilePage";
 

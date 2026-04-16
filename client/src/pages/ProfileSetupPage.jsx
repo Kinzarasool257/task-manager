@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 import { syncUserWithDb } from "../lib/api";
 
 const countries = ["Pakistan", "United States", "United Kingdom", "India", "Canada", "Australia", "Germany", "France", "UAE", "Other"];
@@ -8,7 +8,7 @@ const industries = ["Technology", "Education", "Healthcare", "Finance", "Marketi
 const roles = ["Manager", "Developer", "Designer", "Student", "Freelancer", "CEO/Founder", "Other"];
 
 export default function ProfileSetupPage() {
-  const { user } = useKindeAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({

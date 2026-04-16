@@ -14,6 +14,7 @@ import { PrismaClient } from "@prisma/client";
 import { createRouteHandler } from "uploadthing/express";
 import crypto from "node:crypto";
 import { uploadRouter } from "./uploadthing.js";
+import { sendInvitationEmail, sendTestEmail } from "./services/emailService.js";
 
 
 
@@ -40,6 +41,20 @@ app.use(
 );
 
 app.use(express.json());
+
+// --- Mock Auth Middleware ---
+// Attaches a static guest user to every request
+const checkAuth = (req, res, next) => {
+  req.user = { 
+    id: "cm1234567890guest", 
+    email: "guest@dailytm.app",
+    name: "Guest User"
+  };
+  next();
+};
+
+// Use it for all API routes
+app.use("/api", checkAuth);
 
 
 
@@ -98,29 +113,27 @@ app.get("/health", async (req, res) => {
  */
 
 app.post("/api/users/sync", async (req, res) => {
-
-  const { externalId, email, name, image } = req.body;
-
-
+  const { externalId, email, name, image, preferences } = req.body;
 
   if (!externalId || !email) {
-
     return res.status(400).json({ error: "externalId and email are required" });
-
   }
 
-
-
   try {
-    const { externalId, email, name, image, preferences } = req.body;
-    
-    // Strict Identity Sync: Match only by externalId from Kinde
+    // 1. Try finding by externalId first (Strict Match)
     let user = await prisma.user.findUnique({
       where: { externalId }
     });
 
+    // 2. Fallback: Try finding by email (Recover existing loose records)
+    if (!user) {
+      user = await prisma.user.findUnique({
+        where: { email }
+      });
+    }
+
     if (user) {
-      // Update existing user record
+      // Update existing user record (ensure externalId is aligned)
       user = await prisma.user.update({
         where: { id: user.id },
         data: { 
@@ -212,33 +225,7 @@ app.patch("/api/users/:id/preferences", async (req, res) => {
 
 
 
-/**
-
- * Get User by ID (including preferences)
-
- */
-
-app.get("/api/users/:id", async (req, res) => {
-
-  const { id } = req.params;
-
-  try {
-
-    const user = await prisma.user.findUnique({ where: { id } });
-
-    if (!user) return res.status(404).json({ error: "User not found" });
-
-    res.json(user);
-
-  } catch (error) {
-
-    console.error("Fetch User Error:", error);
-
-    res.status(500).json({ error: "Failed to fetch user" });
-
-  }
-
-});
+// Route already handled above (removed duplicate)
 
 
 
@@ -480,6 +467,20 @@ app.post("/api/workspaces/:id/members", async (req, res) => {
         if (owner?.name) inviterName = owner.name;
       }
       
+      // REAL EMAIL INTEGRATION
+      const clientBaseUrl = process.env.NODE_ENV === "production" 
+        ? "https://dailytm-client.vercel.app" 
+        : "http://localhost:5173";
+      
+      const inviteLink = `${clientBaseUrl}/workspace-invite/${id}/join/${workspaceInfo.inviteCode}`;
+      
+      try {
+        await sendInvitationEmail(email, workspaceInfo.name, inviteLink);
+      } catch (mailErr) {
+        console.error("Critical failure sending invitation email:", mailErr);
+        // We still create the notification in-app even if email fails
+      }
+
       await prisma.notification.create({
         data: {
           userId: user.id,
@@ -491,7 +492,7 @@ app.post("/api/workspaces/:id/members", async (req, res) => {
         }
       });
     } catch (notifErr) {
-      console.error("Failed to generate notification", notifErr);
+      console.error("Failed to generate notification/email", notifErr);
     }
 
     res.status(201).json(member);
@@ -509,6 +510,16 @@ app.delete("/api/members/:id", async (req, res) => {
   } catch (error) {
     console.error("Remove Member Error:", error);
     res.status(500).json({ error: "Failed to remove member" });
+  }
+});
+
+app.get("/api/test-email", async (req, res) => {
+  try {
+    await sendTestEmail();
+    res.json({ success: true, message: "Test email sent! Check your inbox." });
+  } catch (error) {
+    console.error("SMTP Test Error:", error);
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
@@ -811,3 +822,5 @@ app.patch("/api/workspaces/:id/reset-invite", async (req, res) => {
     res.status(500).json({ error: "Failed to reset invite code." });
   }
 });
+
+export default app;

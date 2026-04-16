@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "../../context/ThemeContext";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 
@@ -96,7 +96,7 @@ const DB_TO_UI_STATUS = { "TODO": "TO DO", "IN_PROGRESS": "IN PROGRESS", "DONE":
 export default function ProjectPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useKindeAuth();
+  const { user } = useAuth();
   const { theme } = useTheme();
 
   const [project, setProject] = useState(null);

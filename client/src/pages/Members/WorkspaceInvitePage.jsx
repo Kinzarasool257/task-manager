@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 
 // ── Logo ──────────────────────────────────────────────────────────────────────
 const Logo = () => (
@@ -13,7 +13,7 @@ const Logo = () => (
 export default function WorkspaceInvitePage() {
     const { inviteCode } = useParams();
     const navigate = useNavigate();
-    const { user, isAuthenticated, login } = useKindeAuth();
+    const { user, isAuthenticated, login } = useAuth();
 
     const [status, setStatus] = useState("idle");   // idle | joining | success | error | already
     const [wsName, setWsName] = useState("the workspace");
@@ -64,6 +64,7 @@ export default function WorkspaceInvitePage() {
             const res = await joinWorkspaceByInvite(inviteCode, dbUser.user.id);
 
             if (res.workspaceId) {
+                localStorage.setItem("activeWsId", res.workspaceId);
                 setStatus("success");
                 setTimeout(() => navigate("/dashboard"), 1500);
             } else {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { fmtDate } from "./ProjectPage/projectUtils";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 import TaskDetailPage from "./ProjectPage/TaskDetailPage";
 import { updateTask } from "../lib/api";
 import { useTheme } from "../context/ThemeContext";
@@ -26,7 +26,7 @@ const ALL_COLUMNS = ["Task Title", "Assignee", "Status", "Priority", "Created At
 export default function MyTasks({ projects = [], user: propUser }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user: authUser } = useKindeAuth();
+  const { user: authUser } = useAuth();
   const { theme } = useTheme();
   const user = propUser || authUser;
 

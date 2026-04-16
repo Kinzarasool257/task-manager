@@ -2,7 +2,7 @@ import { useState, useEffect, cloneElement, isValidElement, Children } from "rea
 import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import DashboardMain from "../components/DashboardMain";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 import { getUserWorkspaces, syncUserWithDb, createWorkspace, createProject, createTask } from "../lib/api";
 import { getProjects, saveProjects } from "../pages/ProjectPage/projectUtils";
  
@@ -55,7 +55,7 @@ function Toast({ onClose }) {
 }
  
 export default function Dashboard({ children }) {
-  const { user, isAuthenticated, isLoading: authLoading } = useKindeAuth();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
  

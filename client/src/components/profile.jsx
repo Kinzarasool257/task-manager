@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ProfileDropdown({ onNavigate }) {
     const [open, setOpen] = useState(false);
-    const { user, logout } = useKindeAuth();
+    const { user, logout } = useAuth();
     const dropdownRef = useRef(null);
 
     const userName = user ? `${user.given_name ?? ""} ${user.family_name ?? ""}`.trim() : "User";

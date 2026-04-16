@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 import { getWorkspaceMembers } from "../lib/api";
 import { useTheme } from "../context/ThemeContext";
 import {
@@ -26,7 +26,7 @@ function StatCard({ label, value, iconPath, iconColor, bgColor }) {
 }
 
 export default function DashboardMain({ projects = [], workspace, onProjectClick }) {
-  const { user } = useKindeAuth();
+  const { user } = useAuth();
   const { theme } = useTheme();
   const [members, setMembers] = useState([]);
 

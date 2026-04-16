@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "../context/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -45,7 +45,7 @@ const features = [
 export default function LandingPage() {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
-  const { login, register, isAuthenticated, isLoading } = useKindeAuth();
+  const { login, register, isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) return null;
 

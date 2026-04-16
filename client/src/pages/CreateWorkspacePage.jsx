@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createWorkspace, syncUserWithDb } from "../lib/api";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function CreateWorkspacePage() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
-  const { user } = useKindeAuth();
+  const { user } = useAuth();
   const [isCreating, setIsCreating] = useState(false);
 
   const handleCreate = async () => {
