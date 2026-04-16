@@ -3,8 +3,20 @@ import axios from "axios";
 /**
  * Centralized Axios instance for backend communication.
  */
+const getBaseURL = () => {
+  const rawUrl = import.meta.env.VITE_API_URL;
+  if (!rawUrl) {
+    return import.meta.env.MODE === 'development' ? "http://localhost:4000/api" : "/api";
+  }
+  // Ensure it ends with /api
+  return rawUrl.endsWith("/api") ? rawUrl : `${rawUrl}/api`;
+};
+
+const baseURL = getBaseURL();
+console.log("Current API URL:", baseURL);
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'development' ? "http://localhost:4000/api" : "/api"),
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },
